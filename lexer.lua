@@ -1,5 +1,29 @@
 -- Stolen from Penlight
 
+--[[
+Copyright (C) 2009-2016 Steve Donovan, David Manura.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+]]
+
 --- Lexical scanner for creating a sequence of tokens from text.
 -- `lexer.scan(s)` returns an iterator over all tokens found in the
 -- string `s`. This iterator returns two values, a token type string
@@ -26,10 +50,8 @@ local strfind = string.find
 local strsub = string.sub
 local append = table.insert
 
--- check on OpenResty coroutine versions, and use originals if possible
-local wrap = coroutine._wrap or coroutine.wrap
-local yield = coroutine._yield or coroutine.yield
-
+local wrap = coroutine.wrap
+local yield = coroutine.yield
 
 local function assert_arg(idx,val,tp)
     if type(val) ~= tp then

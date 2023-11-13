@@ -16,7 +16,7 @@ local function getReport(game)
    local taken = game.stop - game.start
 
    return string.format(
-      '| WPM: %u | Time taken: %u seconds | Errors: %u',
+      '| WPM: %s | Time taken: %u seconds | Errors: %u',
       words / (taken / 60),
       taken,
       game.errors
@@ -24,13 +24,13 @@ local function getReport(game)
 end
 
 ---@class Game
----@field private text string
----@field private term any
----@field private stop number
----@field private start number
----@field private position number
----@field private incorrect number
----@field private errors number
+---@field text string
+---@field term any
+---@field stop number
+---@field start number
+---@field position number
+---@field incorrect number
+---@field errors number
 local Game = {}
 
 --- Create a new class
@@ -104,7 +104,6 @@ function Game:draw()
    )
 end
 
----@param data event
 function Game:input(data)
    if data.key ~= 'char' and not data.key == 'backspace' then
       return

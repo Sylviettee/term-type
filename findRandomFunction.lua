@@ -1,24 +1,24 @@
 local lib = require 'luabox'
-local highlight = require './highlight'
 
-local found
+local function flatten(tbl, flattened)
+   flattened = flattened or {}
 
-local function search(tbl)
    for _, v in pairs(tbl) do
-      if type(v) == 'function' and math.random(0, 10) == 2 then
-         found = v
-
-         return true
-      elseif type(v) == 'table' then
-         if search(v) then
-            return
-         end
+      if type(v) == 'function' then
+         table.insert(flattened, v)
+      elseif type(v) == 'table' and not flattened[v] then
+         flattened[v] = true
+         flatten(v, flattened)
       end
    end
 
-   if not found then
-      search(lib)
-   end
+   return flattened
+end
+
+local function search(tbl)
+   local fns = flatten(tbl)
+
+   return fns[math.random(1, #fns)]
 end
 
 local function getSource(fn)
@@ -29,7 +29,7 @@ local function getSource(fn)
    local data = {}
 
    do
-      local f = io.open(src, 'r')
+      local f = assert(io.open(src, 'r'))
 
       local i = 0
 
@@ -46,13 +46,9 @@ local function getSource(fn)
       end
    end
 
-   data = table.concat(data, '\n')
-
-   return data
+   return table.concat(data, '\n')
 end
 
 return function()
-   search(lib)
-
-   return getSource(found)
+   return getSource(search(lib))
 end
